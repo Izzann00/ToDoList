@@ -131,8 +131,13 @@ class TaskController extends Controller
     {
         $dates = Task::whereNotNull('due_date')
                         ->where('completed', false)
-                        ->pluck('due_date');
+                        ->get()
+                        ->map(function ($task) {
+                            return \Carbon\Carbon::parse($task->due_date)->format('Y-m-d');
+                        })
+                        ->unique()
+                        ->values();
 
-        return response()->json($dates);    
+        return response()->json($dates);
     }
 }

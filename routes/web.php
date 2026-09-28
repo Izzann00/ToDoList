@@ -8,6 +8,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
 
+Route::get('/calendar', function () { return view('calendar'); })->name('tasks.calendar');
+
 Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 
 Route::post('/tasks/store', [TaskController::class, 'store'])->name('tasks.store');

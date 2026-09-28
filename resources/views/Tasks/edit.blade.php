@@ -2,28 +2,46 @@
 
 @section('prescripts')
 
-<style>
-
-    .breadcrumbs {
-        margin-right:20px;
-    }
-
-
-    @media(max-width:600px){
-
-        .breadcrumbs {
-            margin-right:-50px ;
-            margin-left:20px ;
+    <style>
+        
+        .required {
+            color: #dc3545;
         }
 
-
-        button {
-            margin-top:5px ;
+        .form-label {
+            font-weight: 600;
         }
 
-    }
+        .form-card {
+            border: 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        }
 
-</style>
+        .form-card .card-header {
+            background: white;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            padding: 18px 20px;
+        }
+
+        .form-card .card-body {
+            padding: 25px;
+        }
+
+        .form-control {
+            border-radius: 7px;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+        }
+
+        .btn {
+            border-radius: 7px;
+        }
+
+    </style>
 
 @endsection
 

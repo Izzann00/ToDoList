@@ -4,11 +4,6 @@
 
 @section('content')
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
@@ -23,6 +18,12 @@
         .datepicker,
         .table-condensed{
             width:300px;
+        }
+
+        .dia-con-tarea {
+            background-color: red !important;
+            color: white !important;
+            font-weight: bold !important;
         }
 
     </style>
@@ -41,21 +42,67 @@
 
     </div>
 
+@endsection
+
+@section('postscripts')
+
+    <script src="{{ asset('js/datepicker.ca.js') }}"></script>
+
     <script>
+        $(function () {
 
-        $(function(){
+            $.get('/tasks/dates', function (fechas) {
 
-            $('#icalendar').datepicker({
+                console.log('FECHAS:', fechas);
 
-                autoclose: true,
-                weekStart: 1,
-                todayHighlight: true,
-                format: 'yyyy-mm-dd'
+                $('#icalendar').datepicker({
+                    language: 'ca',
+                    weekStart: 1,
+                    todayHighlight: true,
+                    autoclose: true,
+                    format: 'dd/mm/yyyy'
+                });
 
+                function pintarFechas() {
+
+                    $('.datepicker td.day').each(function () {
+
+                        let dia = parseInt($(this).text());
+
+                        if (!dia) {
+                            return;
+                        }
+
+                        let fechaCalendario = $(this).data('date');
+
+                        if (!fechaCalendario) {
+                            return;
+                        }
+
+                        let fecha = new Date(fechaCalendario);
+
+                        let fechaFormateada =
+                            fecha.getFullYear() + '-' +
+                            String(fecha.getMonth() + 1).padStart(2, '0') + '-' +
+                            String(fecha.getDate()).padStart(2, '0');
+
+                        if (fechas.includes(fechaFormateada)) {
+                            $(this).addClass('dia-con-tarea');
+                        }
+                    });
+                }
+
+                pintarFechas();
+
+                $('#icalendar').on('changeMonth changeYear changeDate', function () {
+                    setTimeout(function () {
+                    pintarFechas();
+                    }, 10);
+                    
+                });
             });
 
-        });
-
+        });    
     </script>
 
 @endsection

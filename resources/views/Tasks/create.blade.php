@@ -1,15 +1,45 @@
 @extends('layouts.app')
 
-
 @section('prescripts')
 
-<style>
+	<style>
+		.required {
+			color: #dc3545;
+		}
 
-	button {
-		margin-top:5px;
-	}
+		.form-label {
+			font-weight: 600;
+		}
 
-</style>
+		.form-card {
+			border: 0;
+			border-radius: 12px;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+		}
+
+		.form-card .card-header {
+			background: white;
+			border-bottom: 1px solid #eee;
+			font-weight: 600;
+			padding: 18px 20px;
+		}
+
+		.form-card .card-body {
+			padding: 25px;
+		}
+
+		.form-control {
+			border-radius: 7px;
+		}
+
+		.form-control:focus {
+			box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+		}
+
+		.btn {
+			border-radius: 7px;
+		}
+	</style>
 
 @endsection
 
@@ -54,13 +84,16 @@
 
 						<div class="col-sm-5">
 							<textarea name="description" id="idescription" class="form-control @error('description') is-invalid @enderror" rows="6">{{ old('description') }}</textarea>
+							<small class="text-muted">
+								<span id="description-count">0</span>/500 caràcters
+							</small>
 							@error('description')
 								<div class="text-danger mt-1">
 									{{ $message }}
 								</div>
 							@enderror
-							
 						</div>
+
 					</div>
 					<div class="form-group row pb-3">
 
@@ -120,5 +153,17 @@
 		</section>
 	</div>
 
+	<script>
+		const description = document.getElementById('idescription');
+		const descriptionCount = document.getElementById('description-count');
+
+		function updateDescriptionCount() {
+			descriptionCount.textContent = description.value.length;
+		}
+
+		description.addEventListener('input', updateDescriptionCount);
+
+		updateDescriptionCount();
+	</script>
 
 @endsection
